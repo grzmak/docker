@@ -1,0 +1,36 @@
+version: "3.7"
+
+services:
+ dbmyapp:
+  image: mysql:5.7
+  container_name: Full2020-86359
+  restart: always
+  environment:
+   MYSQL_DATABASE: 'docker'
+   MYSQL_USER: 'gmaksim'
+   MYSQL_PASSWORD: 'gmaksim'
+   MYSQL_ROOT_PASSWORD: 'gmaksim'
+  ports: 
+   - '3306:3306'
+  expose:
+  - '3306'
+  networks:
+   Bridge-Zadanie-1:
+    ipv4_address: 10.0.10.3
+
+ javamyapp:
+  image: myjavaapp
+  container_name: myjavaapp
+  networks:
+   - Bridge-Zadanie-1
+  depends_on:
+   - dbmyapp
+  stdin_open: true
+  tty: true
+
+networks:
+ Bridge-Zadanie-1:
+  driver: bridge
+  ipam:
+   config:
+    - subnet: 10.0.10.0/24
